@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Sneha ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff4e8a, #ff9ec6);
+    overflow: hidden;
+    color: white;
+    text-align: center;
+}
+
+.page {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+h1 {
+    font-size: 3rem;
+    text-shadow: 0 0 20px rgba(255,255,255,0.8);
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.3rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.next-btn {
+    background: white;
+    color: #ff4e8a;
+}
+
+.no-btn {
+    background: #ff0033;
+    color: white;
+    font-size: 2rem;
+    position: absolute;
+}
+
+.yes-btn {
+    background: white;
+    color: #ff0033;
+    position: absolute;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    bottom: -20px;
+    color: rgba(255,255,255,0.8);
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
+<!-- Page 1 -->
+<div class="page" id="page1">
+    <h1>Sneha... ❤️</h1>
+    <h1>Will you be my Valentine? 💘</h1>
+    <button class="next-btn" onclick="startExperience()">Next</button>
+</div>
+
+<!-- Page 2 -->
+<div class="page hidden" id="page2">
+    <h1>Choose wisely... 😌</h1>
+    <button class="no-btn" id="noBtn">NO</button>
+    <button class="yes-btn" id="yesBtn" onclick="finalPage()">Yes</button>
+</div>
+
+<!-- Page 3 -->
+<div class="page hidden" id="page3">
+    <h1>💍 You are locked in forever with me ❤️🔒</h1>
+    <h1>There is no escape now 😈</h1>
+</div>
+
+<script>
+const music = document.getElementById("bgMusic");
+
+function startExperience() {
+    music.play();
+    document.getElementById("page1").classList.add("hidden");
+    document.getElementById("page2").classList.remove("hidden");
+    startFloatingButtons();
+    createHearts();
+}
+
+function finalPage() {
+    document.getElementById("page2").classList.add("hidden");
+    document.getElementById("page3").classList.remove("hidden");
+}
+
+function startFloatingButtons() {
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+
+    // YES button floats randomly
+    setInterval(() => {
+        yesBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
+        yesBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
+    }, 700);
+
+    // NO button runs away from cursor
+    document.addEventListener("mousemove", (e) => {
+        const rect = noBtn.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width/2);
+        const dy = e.clientY - (rect.top + rect.height/2);
+        const distance = Math.sqrt(dx*dx + dy*dy);
+
+        if (distance < 150) {
+            noBtn.style.left = Math.random() * (window.innerWidth - 150) + "px";
+            noBtn.style.top = Math.random() * (window.innerHeight - 80) + "px";
+        }
+    });
+}
+
+function createHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
